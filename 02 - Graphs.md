@@ -185,14 +185,14 @@ metadata <- info[!info$ID %in% ID, ]
 nrow(metadata)
 ```
 
-    ## [1] 134
+    ## [1] 135
 
 ``` r
 # Number of studies
 nrow(review)
 ```
 
-    ## [1] 146
+    ## [1] 147
 
 ``` r
 # Not reviewed paper
@@ -572,7 +572,7 @@ results$labelPosition <- (results$ymax + results$ymin) / 2
 results$label <- paste0(results$Var1, "\n ", round(results$fraction*100, digits = 1), "%")
 
 # Blindfold colors
-color <- c('#9F0162', '#008DF9', 'darkgray','#009F81', '#FF6E3A')
+color <- c('#D81B60', '#1E88E5', 'darkgray','#004D40', '#FFC107')
 
 # Make the plot
 plot <- ggplot(results, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Var1)) +
