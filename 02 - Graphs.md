@@ -22,7 +22,7 @@ install.packages("pacman")
 library(pacman) #Easier way of loading packages
 
 # Specify required packages and download it if needed
-pacman::p_load(dplyr, readr, ggalluvial, stringr, plyr, tibble, readxl, rnaturalearth, RColorBrewer)
+pacman::p_load(dplyr, readr, ggalluvial, stringr, plyr, tibble, readxl, rnaturalearth, patchwork, RColorBrewer)
 ```
 
 ``` r
@@ -49,25 +49,23 @@ sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## other attached packages:
-    ##  [1] knitr_1.48          RColorBrewer_1.1-3  rnaturalearth_1.0.1
-    ##  [4] tibble_3.2.1        plyr_1.8.9          stringr_1.5.1      
-    ##  [7] ggalluvial_0.12.5   ggplot2_3.5.1       readr_2.1.5        
-    ## [10] dplyr_1.1.4         pacman_0.5.1       
-    ## 
+    ## [1] RColorBrewer_1.1-3  rnaturalearth_1.0.1 patchwork_1.3.0     tibble_3.2.1       
+    ## [5] plyr_1.8.9          stringr_1.5.1       ggalluvial_0.12.5   ggplot2_3.5.2      
+    ## [9] readr_2.1.5         dplyr_1.1.4         pacman_0.5.1       
+
     ## loaded via a namespace (and not attached):
-    ##  [1] utf8_1.2.4         generics_0.1.3     class_7.3-22       KernSmooth_2.23-22
-    ##  [5] stringi_1.8.4      hms_1.1.3          digest_0.6.37      magrittr_2.0.3    
-    ##  [9] evaluate_1.0.1     grid_4.4.0         fastmap_1.2.0      jsonlite_1.8.9    
-    ## [13] e1071_1.7-16       DBI_1.2.3          httr_1.4.7         fansi_1.0.6       
-    ## [17] scales_1.3.0       codetools_0.2-20   cli_3.6.3          crayon_1.5.3      
-    ## [21] rlang_1.1.4        units_0.8-5        bit64_4.5.2        munsell_0.5.1     
-    ## [25] withr_3.0.1        yaml_2.3.10        parallel_4.4.0     tools_4.4.0       
-    ## [29] tzdb_0.4.0         colorspace_2.1-1   vctrs_0.6.5        R6_2.5.1          
-    ## [33] proxy_0.4-27       lifecycle_1.0.4    classInt_0.4-10    bit_4.5.0         
-    ## [37] vroom_1.6.5        pkgconfig_2.0.3    terra_1.7-83       pillar_1.9.0      
-    ## [41] gtable_0.3.5       glue_1.7.0         Rcpp_1.0.13        sf_1.0-18         
-    ## [45] xfun_0.48          tidyselect_1.2.1   rstudioapi_0.17.0  htmltools_0.5.8.1 
-    ## [49] rmarkdown_2.28     compiler_4.4.0
+    ## [1] utf8_1.2.5         generics_0.1.4     class_7.3-23       KernSmooth_2.23-26
+    ## [5] stringi_1.8.7      hms_1.1.3          magrittr_2.0.3     grid_4.5.0        
+    ## [9] jsonlite_2.0.0     e1071_1.7-16       DBI_1.2.3          httr_1.4.7        
+    ## [13] scales_1.4.0       textshaping_1.0.1  codetools_0.2-20   cli_3.6.5         
+    ## [17] rlang_1.1.6        crayon_1.5.3       units_0.8-7        bit64_4.6.0-1     
+    ## [21] withr_3.0.2        tools_4.5.0        parallel_4.5.0     tzdb_0.5.0        
+    ## [25] vctrs_0.6.5        R6_2.6.1           proxy_0.4-27       lifecycle_1.0.4   
+    ## [29] classInt_0.4-11    bit_4.6.0          vroom_1.6.5        ragg_1.4.0        
+    ## [33] pkgconfig_2.0.3    terra_1.8-50       pillar_1.10.2      gtable_0.3.6      
+    ## [37] glue_1.8.0         Rcpp_1.0.14        systemfonts_1.2.3  sf_1.0-21         
+    ## [41] tidyselect_1.2.1   rstudioapi_0.17.1  farver_2.1.2       labeling_0.4.3    
+    ## [45] compiler_4.5.0    
 
 ## 01 Import data sets
 
@@ -408,35 +406,39 @@ freq_df <- freq_df[freq_df$Freq > 0,]
 # Convert the date to number
 freq_df$year <- as.numeric(as.character(freq_df$year))
 
-# Convert the categories from factors to characters
-freq_df$category <- as.character(freq_df$category)
-
 # Blindfold colors
 color <- c('#00429d', '#6a4285', '#8e4575', '#a74d6b', '#b95967', '#c76767', '#d2776b', '#d88974', '#db9c80', '#daaf90', '#d4c4a3', '#c7d8ba', '#edded8', '#feecdb', '#ffffe0')
 
+freq_df <- freq_df %>%
+  arrange(year, category) %>%
+  mutate(
+    cumsum_freq = ave(Freq, year, FUN = cumsum),
+    pos = cumsum_freq - 0.5 * Freq)
+
+print(freq_df)
+
 # Create the plot
-plot <- ggplot(freq_df, aes(x=year, y=Freq, fill = category)) +
+plot1 <- ggplot(freq_df, aes(x=year, y=Freq, fill = reorder(category, -as.numeric(category)))) +
   geom_bar(stat = "identity", colour="white", width= 0.9, cex = 0.1) +
-  geom_text(aes(x=year, y = Freq, label = Freq), vjust = -0.5, col = "white")+
+  geom_text(aes(y = pos, label = ifelse(Freq > 1, Freq, "")),
+            color = "white",
+            size = 4) +
   scale_fill_manual(values = color) + # Apply the custom color palette
-  labs(x = "Year", y = paste0("Number of studies (n =", sum(freq_df$Freq),")"), fill = "Archaeological categories") +
+  labs(x = "Year", y = paste0("Number of observations (n =", sum(freq_df$Freq),")"), fill = "Archaeological categories") +
   coord_cartesian(xlim =c(1997, 2022), ylim = c(0, 75)) +
+  annotate("text", x = 1997, y = 75, label = "A", fontface = "bold", size = 9, hjust = 1.2, vjust = 0.5) +
   theme_bw()+
-  theme(legend.position="bottom", legend.box="vertical", legend.margin=margin()) 
+  theme(legend.position = "bottom",
+    legend.box = "vertical",
+    legend.margin = margin(),
+    legend.text = element_text(size = 12),
+    legend.title = element_text(size = 13, face = "bold"),
+    axis.text.y = element_text(size = 12),
+    axis.title.y = element_text(size = 13, face = "bold"),
+    axis.text.x = element_text(size = 12),
+    axis.title.x = element_text(size = 13, face = "bold"))
 
-# Plot
-plot
-```
 
-![](export/Graph/Figure_05.png)<!-- -->
-
-``` r
-# Export plot
-ggsave("./Export/Graph/Figure_05.png", plot = plot, width = 15, height = 10, units = "in", dpi = 600)
-ggsave("./Export/Graph/Figure_05.pdf", plot = plot, width = 15, height = 10, units = "in")
-```
-
-``` r
 # 02.7 Number of articles for each families of models #####################
 cat <- review[,c(3,6)]
 cat <- cat %>% add_column(pest_matrix = cat$Family %>% str_split(';', simplify = T))
@@ -465,32 +467,53 @@ freq_df <- freq_df[freq_df$Freq > 0,]
 # Convert the date to number
 freq_df$year <- as.numeric(as.character(freq_df$year))
 
-# Convert the categories from factors to characters
-freq_df$category <- as.character(freq_df$family)
-
 # Blindfold colors
 color <- c('#9F0162', '#009F81', '#FF5AAF', '#00FCCF', '#8400CD', '#008DF9', '#00C2F9', '#FFB2FD', '#FF6E3A')
 
-# Create the plot
-plot <- ggplot(freq_df, aes(x=year, y=Freq, fill = family)) +
-  geom_bar(stat = "identity", colour="white", width= 0.9, cex = 0.1) +
-  geom_text(aes(x=year, y = Freq, label = Freq), vjust = -0.5, col = "white")+
-  scale_fill_manual(values = color) + # Apply the custom color palette
-  labs(x = "Year", y = paste0("Number of observations (n =", sum(freq_df$Freq),")"), fill = "Architectures categories") +
-  coord_cartesian(xlim =c(1997, 2022), ylim = c(0, 75)) +
-  theme_bw()+
-  theme(legend.position="bottom", legend.box="vertical", legend.margin=margin()) 
+freq_df <- freq_df %>%
+  arrange(year, family) %>%
+  mutate(
+    cumsum_freq = ave(Freq, year, FUN = cumsum),
+    pos = cumsum_freq - 0.5 * Freq)
 
-# Plot
+print(freq_df)
+
+plot2 <- ggplot(freq_df, aes(x = year, y = Freq, fill = reorder(family, -as.numeric(family)))) +
+  geom_bar(stat = "identity", colour = "white", width = 0.9) +
+  geom_text(aes(y = pos, label = ifelse(Freq > 1, Freq, "")),
+    color = "white",
+    size = 4) +
+  scale_fill_manual(values = color) +
+  labs(
+    x = "Year",
+    y = paste0("Number of observations (n = ", sum(freq_df$Freq), ")"),
+    fill = "Architectures categories"
+  ) +
+  coord_cartesian(xlim = c(1997, 2022), ylim = c(0, 75)) +
+  annotate("text", x = 1997, y = 75, label = "B", fontface = "bold", size = 9, hjust = 1.2, vjust = 0.5) +
+  theme_bw() +
+  theme(
+    legend.position = "bottom",
+    legend.box = "vertical",
+    legend.margin = margin(),
+    legend.text = element_text(size = 12),
+    legend.title = element_text(size = 13, face = "bold"),
+    axis.text.y = element_text(size = 12),
+    axis.title.y = element_text(size = 13, face = "bold"),
+    axis.text.x = element_text(size = 12),
+    axis.title.x = element_text(size = 13, face = "bold"))
+
+plot <- plot1/plot2
+
+# Combinned plot
 plot
 ```
-
-![](export/Graph/Figure_06.png)<!-- -->
+![](export/Graph/Figure_05.png)<!-- -->
 
 ``` r
 # Export plot
-ggsave("./Export/Graph/Figure_06.png", plot = plot, width = 15, height = 10, units = "in", dpi = 600)
-ggsave("./Export/Graph/Figure_06.pdf", plot = plot, width = 15, height = 10, units = "in")
+ggsave("./export/graph//Figure_05.png", plot = plot, width = 13, height = 17, units = "in", dpi = 600)
+ggsave("./export/graph//Figure_05.pdf", plot = plot, width = 13, height = 17, units = "in")
 ```
 
 ``` r
@@ -532,27 +555,19 @@ color <- c('#9F0162', '#009F81', '#FF5AAF', '#008DF9', '#FF6E3A', 'darkgray')
 
 
 # Barplot of the input
-plot <- ggplot(input, aes(x = Var1, y = Freq)) +
+plot1 <- ggplot(input, aes(x = Var1, y = Freq)) +
   geom_bar(stat = "identity", fill = color) +
-  labs(x = "Input categories", y = paste0("Number of studies (n =", sum(input$Freq),")")) +
+  labs(x = "Input categories", y = paste0("Number of observations (n =", sum(input$Freq),")")) +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 15))+
+  annotate("text", x = 6, y = 55, label = "A", fontface = "bold", size = 9, hjust = -0.2, vjust = 0.5) +
   theme_classic() +
- theme(axis.ticks.x = element_blank())
+  theme(axis.ticks.x = element_blank(),
+    legend.text = element_text(size = 12),
+    axis.text.y = element_text(size = 12),
+    axis.title.y = element_text(size = 14, face = "bold"),
+    axis.text.x = element_text(size = 12),
+    axis.title.x = element_text(size = 14, face = "bold"))
   
-
-# Plot
-plot
-```
-
-![](export/Graph/Figure_07.png)<!-- -->
-
-``` r
-# Export plot
-ggsave("./Export/Graph/Figure_07.png", plot = plot, width = 6, height = 5, units = "in", dpi = 600)
-ggsave("./Export/Graph/Figure_07.pdf", plot = plot, width = 6, height = 5, units = "in")
-```
-
-``` r
 # 02.9 Number of results categories ############################################
 results <- as.data.frame(table(review$Results))
 
@@ -575,25 +590,29 @@ results$label <- paste0(results$Var1, "\n ", round(results$fraction*100, digits 
 color <- c('#D81B60', '#1E88E5', 'darkgray','#004D40', '#FFC107')
 
 # Make the plot
-plot <- ggplot(results, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Var1)) +
+plot2 <- ggplot(results, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Var1)) +
   geom_rect() +
-  geom_label( x=4.25, aes(y=labelPosition, label=label), size=4) +
+  geom_label(x = 4.5, aes(y=labelPosition, label=label), size=4) +
+  annotate("text", x = 4.55, y = max(results$ymax), label = "B", 
+           fontface = "bold", size = 9, hjust = -6, vjust = 1) +
   scale_fill_manual(values = color) +
   coord_polar(theta="y") +
-  xlim(c(2, 4.2)) +
+  xlim(c(2, 4.6)) +
   theme_void() +
   theme(legend.position = "none")
 
-# Plot
+# Final plot  
+plot <- plot1 + plot2 + plot_layout(widths = c(1, 0.8))
 plot
+
 ```
 
-![](export/Graph/Figure_08.png)<!-- -->
+![](export/Graph/Figure_06.png)<!-- -->
 
 ``` r
 # Export plot
-ggsave("./Export/Graph/Figure_08.png", plot = plot, width = 6, height = 5, units = "in", dpi = 600)
-ggsave("./Export/Graph/Figure_08.pdf", plot = plot, width = 6, height = 5, units = "in")
+ggsave("./export/graph//Figure_06.png", plot = plot, width = 13.5, height = 5, units = "in", dpi = 600)
+ggsave("./export/graph//Figure_06.pdf", plot = plot, width = 13.5, height = 5, units = "in")
 ```
 
 ## 03 Alluvial diagrams
@@ -695,11 +714,11 @@ plot <- ggplot(data = frequency,
 plot
 ```
 
-![](export/Graph/Figure_09.png)<!-- -->
+![](export/Graph/Figure_07.png)<!-- -->
 
 ``` r
-ggsave("./Export/Graph/Figure_09.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
-ggsave("./Export/Graph/Figure_09.pdf", plot = plot, width = 12, height = 10, units = "in")
+ggsave("./Export/Graph/Figure_07.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
+ggsave("./Export/Graph/Figure_07.pdf", plot = plot, width = 12, height = 10, units = "in")
 ```
 
 ``` r
@@ -782,11 +801,11 @@ plot <- ggplot(data = frequency,
 plot
 ```
 
-![](export/Graph/Figure_10.png)<!-- -->
+![](export/Graph/Figure_08.png)<!-- -->
 
 ``` r
-ggsave("./Export/Graph/Figure_10.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
-ggsave("./Export/Graph/Figure_10.pdf", plot = plot, width = 12, height = 10, units = "in")
+ggsave("./Export/Graph/Figure_08.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
+ggsave("./Export/Graph/Figure_08.pdf", plot = plot, width = 12, height = 10, units = "in")
 ```
 
 ``` r
@@ -835,9 +854,9 @@ plot <- ggplot(data = frequency,
 plot
 ```
 
-![](export/Graph/Figure_11.png)<!-- -->
+![](export/Graph/Figure_10.png)<!-- -->
 
 ``` r
-ggsave("./Export/Graph/Figure_11.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
-ggsave("./Export/Graph/Figure_11.pdf", plot = plot, width = 12, height = 10, units = "in")
+ggsave("./Export/Graph/Figure_10.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
+ggsave("./Export/Graph/Figure_10.pdf", plot = plot, width = 12, height = 10, units = "in")
 ```
