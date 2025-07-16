@@ -854,7 +854,7 @@ plot <- ggplot(data = frequency,
 plot
 ```
 
-![](export/Graph/Figure_10.png)<!-- -->
+![](export/Graph/Figure_09.png)<!-- -->
 
 ``` r
 ggsave("./Export/Graph/Figure_10.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
