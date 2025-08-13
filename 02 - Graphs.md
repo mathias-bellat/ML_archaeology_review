@@ -1268,7 +1268,7 @@ ggsave("./export/graph/Figure_10_raw.png", plot = plot, width = 12, height = 10,
 ggsave("./export/graph/Figure_10_raw.pdf", plot = plot, width = 12, height = 10, units = "in")
 ```
 
-## Annexe/GLossary model table
+## Annexe/Glossary model table
 
 ``` r
 # 06 Model table for annexes/glossary ##########################################
