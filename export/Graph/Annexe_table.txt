@@ -1,0 +1,158 @@
+\begin{table}
+\centering
+\caption{List of algorithms used in the papers under review organized by the approach and family of analysis, 
+        along with their abbreviations and number of use. In the case the model was compared to others, we highlighted the number of time he 
+        performed as the best model.}
+\centering
+\begin{tabular}[t]{l|l|l|l|r|r}
+\hline
+Approach & Family & Description & Model abreviation & Number of uses & Number of time the model performed the best\\
+\hline
+ &  & Feedforward Neural Network & FNN & 23 & 4\\
+\cline{3-6}
+ &  & Convolutional Neural Network & CNN & 14 & 1\\
+\cline{3-6}
+ &  & Residual Neural Network & ResNet & 12 & 2\\
+\cline{3-6}
+ &  & Mask Region-based Convolutional Neural Network & MR-CNN & 9 & 1\\
+\cline{3-6}
+ &  & Faster Region-based Convolutional Neural Network & FR-CNN & 8 & 0\\
+\cline{3-6}
+ &  & Visual Geomtry Group & VGG & 8 & 2\\
+\cline{3-6}
+ &  & U-Net & U-Net & 7 & 4\\
+\cline{3-6}
+ &  & Inception Network & INC & 4 & 1\\
+\cline{3-6}
+ &  & AlexNet & AlexNet & 3 & 0\\
+\cline{3-6}
+ &  & RetinaNet & RN & 3 & 0\\
+\cline{3-6}
+ &  & YOLO & YOLO & 3 & 0\\
+\cline{3-6}
+ &  & DeepLabv3+ & DL3 & 2 & 0\\
+\cline{3-6}
+ &  & Semantic Segmentation Model & SegNet & 2 & 0\\
+\cline{3-6}
+ &  & Adaptive deep learning for fine-grained image retrieval & ADLFIG & 1 & 0\\
+\cline{3-6}
+ &  & Bidirectional Encoder Representations from Transformers (DNLM) & BERT & 1 & 0\\
+\cline{3-6}
+ &  & BiGRU-Dual Attention & BiGRU & 1 & 0\\
+\cline{3-6}
+ &  & BiLSTM (RNN/Recurent Neural Network) & BiLSTM & 1 & 0\\
+\cline{3-6}
+ &  & Dynamic Graph Convolutional Neural Network & DGCNN & 1 & 0\\
+\cline{3-6}
+ &  & DenseNet201 & DN201 & 1 & 0\\
+\cline{3-6}
+ &  & Generative Adversarial Network & GAN & 1 & 0\\
+\cline{3-6}
+ &  & Jason 2 & JAS2 & 1 & 0\\
+\cline{3-6}
+ &  & Neural Support Vector Machine & NSVM & 1 & 0\\
+\cline{3-6}
+ &  & Region-based Convolutional Neural Network & R-CNN & 1 & 0\\
+\cline{3-6}
+ &  & SimpleNet & SimpleNet & 1 & 0\\
+\cline{3-6}
+ & \multirow[t]{-25}{*}{\raggedright\arraybackslash Artificial Neural Network} & Single Shot MultiBox Detector & SSD & 1 & 0\\
+\cline{2-6}
+ &  & Naïve Bayes & NB & 11 & 0\\
+\cline{3-6}
+ & \multirow[t]{-2}{*}{\raggedright\arraybackslash Bayesian Classifier} & Maximum Entropy & MaxEnt & 2 & 0\\
+\cline{2-6}
+ &  & C5.0 & C5.0 & 7 & 2\\
+\cline{3-6}
+ &  & C4.5 & C4.5 & 4 & 0\\
+\cline{3-6}
+ &  & Decision Tree/Classification Tree & DT & 4 & 0\\
+\cline{3-6}
+ &  & Conditional Inference Trees & CTREE & 2 & 0\\
+\cline{3-6}
+ &  & Iterative Dichotomiser 3 & ID3 & 2 & 0\\
+\cline{3-6}
+ &  & Classification And Regression Tree & CART & 1 & 0\\
+\cline{3-6}
+ &  & Fast and Frugal Tree & FFT & 1 & 0\\
+\cline{3-6}
+ &  & Learning with Galois Lattice & LEGAL & 1 & 0\\
+\cline{3-6}
+ &  & Representative trees & REPTree & 1 & 0\\
+\cline{3-6}
+ & \multirow[t]{-10}{*}{\raggedright\arraybackslash Decision Trees and Rule Induction} & Random Tree & RT & 1 & 0\\
+\cline{2-6}
+ &  & k-Mean Clustering & k-MC & 7 & 0\\
+\cline{3-6}
+ & \multirow[t]{-2}{*}{\raggedright\arraybackslash Dimensionality reduction} & k-medoids clustering & k-MED & 2 & 0\\
+\cline{2-6}
+ &  & Random Forest & RF & 54 & 20\\
+\cline{3-6}
+ &  & Adaptative Boost & AdaBoost & 2 & 0\\
+\cline{3-6}
+ &  & Stochastic Gradient Boosting & SGB & 2 & 1\\
+\cline{3-6}
+ &  & eXtreme Gradient Boosting & XGB & 2 & 1\\
+\cline{3-6}
+ &  & Bootstrap Agreggating & BAgg & 1 & 0\\
+\cline{3-6}
+ &  & Discrete SuperLearner & dSL & 1 & 0\\
+\cline{3-6}
+ &  & Fast Random Forest & FRF & 1 & 0\\
+\cline{3-6}
+ &  & GradientBoosting regression tree & GboostRT & 1 & 0\\
+\cline{3-6}
+ &  & LogitBoost & LB & 1 & 0\\
+\cline{3-6}
+ &  & Quantile Random forest & qRF & 1 & 0\\
+\cline{3-6}
+ &  & Sequential Backward Selection-Random Forest Regression & SBS-RFR & 1 & 1\\
+\cline{3-6}
+ &  & SMOTE Boost & SMOTEBoost & 1 & 0\\
+\cline{3-6}
+ &  & Synthetic Minority Oversampling Technique + Edited Nearest Neighbour Rule & SMOTEENN & 1 & 0\\
+\cline{3-6}
+ &  & Super Learner & SP & 1 & 1\\
+\cline{3-6}
+ & \multirow[t]{-15}{*}{\raggedright\arraybackslash Ensemble Learning} & Viola-Jones Cascade Classifier & VL-CC & 1 & 0\\
+\cline{2-6}
+ & Genetic Algorithm & Genetic Algorithm & GA & 1 & 0\\
+\cline{2-6}
+ &  & Support Vector Machine & SVM & 26 & 2\\
+\cline{3-6}
+ & \multirow[t]{-2}{*}{\raggedright\arraybackslash Linear Classifier} & Structured SVM & SSVM & 1 & 0\\
+\cline{2-6}
+ & Linear regression & Linear Regression & LR & 1 & 0\\
+\cline{2-6}
+ &  & k-nearest neighbors & kNN & 19 & 1\\
+\cline{3-6}
+ & \multirow[t]{-2}{*}{\raggedright\arraybackslash Nearest Neighbour Classifier} & Weighted k-nearest neighbors & kkNN & 3 & 0\\
+\cline{2-6}
+ & Polynomial Classifier & Support Vector Machine with Radial Basis Function Kernel & SVMr & 7 & 1\\
+\cline{2-6}
+ &  & Affinity Propagation & AF & 1 & 0\\
+\cline{3-6}
+ &  & Hierarchical Cluster-Based Peak Alignment & CluPA & 1 & 0\\
+\cline{3-6}
+ &  & Databionic Swarm & DBS & 1 & 0\\
+\cline{3-6}
+ &  & Expectation-Maximisation Clustering & EMC & 1 & 0\\
+\cline{3-6}
+ &  & Graph-based Semi-Supervised Learning & GSSL & 1 & 1\\
+\cline{3-6}
+ &  & Iterative Closest Point & ICP & 1 & 0\\
+\cline{3-6}
+ &  & Iterative Self-Organizing Data Analysis & ISODATA & 1 & 0\\
+\cline{3-6}
+ &  & Nearest Centroid & NC & 1 & 0\\
+\cline{3-6}
+ &  & Simple Linear Iterative Clustering & SLIC & 1 & 0\\
+\cline{3-6}
+ &  & Self-Organizing Map & SOM & 1 & 0\\
+\cline{3-6}
+ &  & Tilburg Memory-Based Learning & TiMBL & 1 & 0\\
+\cline{3-6}
+\multirow[t]{-73}{*}[10\dimexpr\aboverulesep+\belowrulesep+\cmidrulewidth]{\raggedright\arraybackslash Machine learning} & \multirow[t]{-12}{*}{\raggedright\arraybackslash Unsupervised Learning and Clustering} & Time series clustering & TSC & 1 & 0\\
+\hline
+\end{tabular}
+\end{table}

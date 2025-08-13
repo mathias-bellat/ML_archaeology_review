@@ -1,0 +1,75 @@
+﻿Model;Acronym;No. of study cases;Frequency best;Familly assigned;;ID;Family;No. of study cases (model family);No. of models
+Random Forest;RF;54;20;Ensemble Learning;;1;Artificial Neural Network;110;25
+Support Vector Machine;SVM;26;2;Linear Classifier;;2;Bayesian Classifier;13;2
+Feedforward Neural Network;FNN;23;4;Artificial Neural Network;;3;Nearest Neighbour Classifier;22;2
+k-nearest neighbors;kNN;19;1;Nearest Neighbour Classifier;;4;Linear Classifier;27;2
+Convolutional Neural Network;CNN;14;1;Artificial Neural Network;;5;Polynomial Classifier;7;1
+Residual Neural Network;ResNet;12;2;Artificial Neural Network;;6;Decision Trees and Rule Induction;24;10
+Naïve Bayes;NB;11;0;Bayesian Classifier;;7;Ensemble Learning;71;15
+Mask Region-based Convolutional Neural Network;MR-CNN;9;1;Artificial Neural Network;;8;Unsupervised Learning and Clustering;12;12
+Faster Region-based Convolutional Neural Network;FR-CNN;8;0;Artificial Neural Network;;9;Genetic Algorithm;1;1
+Visual Geomtry Group;VGG;8;2;Artificial Neural Network;;10;Reinforcement Learning;0;0
+C5.0;C5.0;7;2;Decision Trees and Rule Induction;;;Total;287;70
+Support Vector Machine with Radial Basis Function Kernel;SVMr;7;1;Polynomial Classifier;;;;;
+U-Net;U-Net;7;4;Artificial Neural Network;;;N/A;10;3
+k-Mean Clustering;k-MC;7;0;N/A;;;;;
+C4.5;C4.5;4;0;Decision Trees and Rule Induction;;;;;
+Decision Tree/Classification Tree;DT;4;0;Decision Trees and Rule Induction;;;;;
+Inception Network;INC;4;1;Artificial Neural Network;;;;;
+AlexNet;AlexNet;3;0;Artificial Neural Network;;;;;
+Weighted k-nearest neighbors;kkNN;3;0;Nearest Neighbour Classifier;;;;;
+RetinaNet ;RN;3;0;Artificial Neural Network;;;;;
+YOLO;YOLO;3;0;Artificial Neural Network;;;;;
+Adaptative Boost;AdaBoost;2;0;Ensemble Learning;;;;;
+Conditional Inference Trees;CTREE;2;0;Decision Trees and Rule Induction;;;;;
+DeepLabv3+;DL3;2;0;Artificial Neural Network;;;;;
+Iterative Dichotomiser 3;ID3;2;0;Decision Trees and Rule Induction;;;;;
+Maximum Entropy;MaxEnt;2;0;Bayesian Classifier;;;;;
+Semantic Segmentation Model;SegNet;2;0;Artificial Neural Network;;;;;
+Stochastic Gradient Boosting;SGB;2;1;Ensemble Learning;;;;;
+eXtreme Gradient Boosting;XGB;2;1;Ensemble Learning;;;;;
+k-medoids clustering;k-MED;2;0;N/A;;;;;
+Adaptive deep learning for fine-grained image retrieval;ADLFIG;1;0;Artificial Neural Network;;;;;
+Affinity Propagation;AF;1;0;Unsupervised Learning and Clustering;;;;;
+Bootstrap Agreggating;BAgg;1;0;Ensemble Learning;;;;;
+Bidirectional Encoder Representations from Transformers (DNLM);BERT;1;0;Artificial Neural Network;;;;;
+BiGRU-Dual Attention;BiGRU;1;0;Artificial Neural Network;;;;;
+BiLSTM (RNN/Recurent Neural Network);BiLSTM;1;0;Artificial Neural Network;;;;;
+Classification And Regression Tree;CART;1;0;Decision Trees and Rule Induction;;;;;
+Hierarchical Cluster-Based Peak Alignment ;CluPA;1;0;Unsupervised Learning and Clustering;;;;;
+Databionic Swarm;DBS;1;0;Unsupervised Learning and Clustering;;;;;
+Dynamic Graph Convolutional Neural Network;DGCNN;1;0;Artificial Neural Network;;;;;
+DenseNet201;DN201;1;0;Artificial Neural Network;;;;;
+Discrete SuperLearner;dSL;1;0;Ensemble Learning;;;;;
+Expectation-Maximisation Clustering;EMC;1;0;Unsupervised Learning and Clustering;;;;;
+Fast and Frugal Tree;FFT;1;0;Decision Trees and Rule Induction;;;;;
+Fast Random Forest;FRF;1;0;Ensemble Learning;;;;;
+Genetic Algorithm;GA;1;0;Genetic Algorithm;;;;;
+Generative Adversarial Network;GAN;1;0;Artificial Neural Network;;;;;
+GradientBoosting regression tree;GboostRT;1;0;Ensemble Learning;;;;;
+Graph-based Semi-Supervised Learning;GSSL;1;1;Unsupervised Learning and Clustering;;;;;
+Iterative Closest Point;ICP;1;0;Unsupervised Learning and Clustering;;;;;
+Iterative Self-Organizing Data Analysis;ISODATA;1;0;Unsupervised Learning and Clustering;;;;;
+Jason 2;JAS2;1;0;Artificial Neural Network;;;;;
+LogitBoost;LB;1;0;Ensemble Learning;;;;;
+Learning with Galois Lattice;LEGAL;1;0;Decision Trees and Rule Induction;;;;;
+Linear Regression;LR;1;0;N/A;;;;;
+Nearest Centroid;NC;1;0;Unsupervised Learning and Clustering;;;;;
+Neural Support Vector Machine;NSVM;1;0;Artificial Neural Network;;;;;
+Quantile Random forest;qRF;1;0;Ensemble Learning;;;;;
+Region-based Convolutional Neural Network;R-CNN;1;0;Artificial Neural Network;;;;;
+Representative trees;REPTree;1;0;Decision Trees and Rule Induction;;;;;
+Random Tree;RT;1;0;Decision Trees and Rule Induction;;;;;
+Sequential Backward Selection-Random Forest Regression;SBS-RFR;1;1;Ensemble Learning;;;;;
+SimpleNet;SimpleNet;1;0;Artificial Neural Network;;;;;
+Simple Linear Iterative Clustering;SLIC;1;0;Unsupervised Learning and Clustering;;;;;
+SMOTE Boost;SMOTEBoost;1;0;Ensemble Learning;;;;;
+Synthetic Minority Oversampling Technique + Edited Nearest Neighbour Rule;SMOTEENN;1;0;Ensemble Learning;;;;;
+Self-Organizing Map;SOM;1;0;Unsupervised Learning and Clustering;;;;;
+Super Learner;SP;1;1;Ensemble Learning;;;;;
+Single Shot MultiBox Detector;SSD;1;0;Artificial Neural Network;;;;;
+Structured SVM;SSVM;1;0;Linear Classifier;;;;;
+Tilburg Memory-Based Learning;TiMBL;1;0;Unsupervised Learning and Clustering;;;;;
+Time series clustering;TSC;1;0;Unsupervised Learning and Clustering;;;;;
+Viola-Jones Cascade Classifier;VL-CC;1;0;Ensemble Learning;;;;;
+Total;73;297;46;73;;;;;

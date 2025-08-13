@@ -2,5 +2,7 @@
 *.Rhistory
 *.Ruserdata
 *.Rproj
+*.qmd
 *.Rprofile
 *.Rproj.user
+.Rproj.user
