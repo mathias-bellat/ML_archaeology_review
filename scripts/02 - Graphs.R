@@ -24,7 +24,7 @@ rm(list = ls(all.names = TRUE))
 # 0.2 Load packages ============================================================
 install.packages("pacman")
 library(pacman) #Easier way of loading packages
-pacman::p_load(dplyr, readr, ggalluvial, stringr, plyr, tibble, 
+pacman::p_load(dplyr, readr, ggalluvial, stringr, plyr, tibble, ggplot2
 patchwork, rnaturalearth, RColorBrewer, gridExtra, treemap, knitr, kableExtra) # Specify required packages and download it if needed
 
 # 0.3 Session info =============================================================
@@ -538,8 +538,39 @@ plot
 ggsave("./export/graph/Figure_07_raw.png", plot = plot, width = 13.5, height = 5, units = "in", dpi = 600)
 ggsave("./export/graph/Figure_07_raw.pdf", plot = plot, width = 13.5, height = 5, units = "in")
 
-# 03 Families categories alluvial diagram ######################################
-# 03.1 Families categories concatenate =========================================
+# 03 Tree map figure ###########################################################
+
+# 3.1 Import the data ==========================================================
+df <- models
+df <- df[-74, c(1:5)]
+df <- df[df[3] !=0,] # Remove models with no occurences
+
+# 3.2 Format the data ==========================================================
+names(df) <- c("description", "model", "value", "value.best", "family")
+df$family[df$family == "N/A"] <- "Statistics"
+
+# 3.3 Create and export the graph  =============================================
+png("./export/graph/Figure_08_raw.png", width = 1200, height = 1000)
+pdf("./export/graph/Figure_08_raw.pdf", width = 12, height = 10)
+par(mar = c(0, 0, 0, 0))
+tm <- treemap(df,
+              index = c("family", "model"),
+              vSize = "value",
+              type = "index",
+              fontsize.labels = c(16, 15),  # Masquer les labels de famille
+              fontcolor.labels = c("white", "black"),  # Noir sur Pastel1
+              bg.labels = 0,
+              align.labels = list(c("left", "top"), c("center", "center")),
+              title = "",
+              palette = "Pastel1",
+              border.col = c("black", "white"),
+              border.lwds = c(2, 0))
+dev.off()
+
+
+
+# 04 Families categories alluvial diagram ######################################
+# 04.1 Families categories concatenate =========================================
 # Split the categories column by semicolon
 cat <- review[,c(10:11,6)]
 cat <- cat %>% add_column(pest_matrix = cat$Family %>% str_split(';', simplify = T))
@@ -562,7 +593,7 @@ colnames(final) <- c("Evaluation", "Task","Architecture")
 
 write.csv(final, "./export/second_alluvial.csv", fileEncoding = "UTF-8")
 
-# 03.2 Remove under represented tasks ==========================================
+# 04.2 Remove under represented tasks ==========================================
 final <- as.data.frame(final)
 frequency_table <- table(final$Task)
 frequency_df <- as.data.frame(frequency_table)
@@ -577,7 +608,7 @@ for (i in 1:nrow(final)) {
   }
 }
 
-# 03.3 Remove under represented archaeological categories ======================
+# 04.3 Remove under represented archaeological categories ======================
 frequency_table <- table(final$Architecture)
 frequency_df <- as.data.frame(frequency_table)
 
@@ -590,7 +621,7 @@ for (i in 1:nrow(final)) {
   }
 }
 
-# 03.4 Plot the second alluvial diagramm =======================================
+# 04.4 Plot the second alluvial diagramm =======================================
 frequency_table <- table(final$Evaluation, final$Architecture, final$Task)
 
 # Convert the frequency table to a data frame
@@ -617,11 +648,11 @@ plot <- ggplot(data = frequency,
 # Plot the graph/
 plot
 
-ggsave("./export/graph/Figure_08_raw.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
-ggsave("./export/graph/Figure_08_raw.pdf", plot = plot, width = 12, height = 10, units = "in")
+ggsave("./export/graph/Figure_09_raw.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
+ggsave("./export/graph/Figure_09_raw.pdf", plot = plot, width = 12, height = 10, units = "in")
 
-# 04 Subfield categories alluvial diagram ######################################
-# 04.1 Function to concatenate the columns =====================================
+# 05 Subfield categories alluvial diagram ######################################
+# 05.1 Function to concatenate the columns =====================================
 separate <- function(df, A, B) {
   for (i in 1:nrow(df)) {
     for (j in A:B) {
@@ -635,7 +666,7 @@ separate <- function(df, A, B) {
   return(df)
 } 
 
-# 04.2 Archaeological categories concatenate ###################################
+# 05.2 Archaeological categories concatenate ###################################
 
 # Split the categories column by semicolon
 cat <- review[,c(10:11,7)]
@@ -659,7 +690,7 @@ colnames(final) <- c("Evaluation", "Task","Category")
 
 write.csv(final, "./export/first_alluvial.csv", fileEncoding = "UTF-8")
 
-# 04.3 Remove under represented tasks ==========================================
+# 05.3 Remove under represented tasks ==========================================
 
 final <- as.data.frame(final)
 frequency_table <- table(final$Task)
@@ -675,7 +706,7 @@ for (i in 1:nrow(final)) {
   }
 }
 
-# 03.4 Remove under represented archaeological categories ======================
+# 05.4 Remove under represented archaeological categories ======================
 frequency_table <- table(final$Category)
 frequency_df <- as.data.frame(frequency_table)
 
@@ -688,7 +719,7 @@ for (i in 1:nrow(final)) {
   }
 }
 
-# 04.5 Plot the first alluvial diagram =========================================
+# 05.5 Plot the first alluvial diagram =========================================
 frequency_table <- table(final$Evaluation, final$Category, final$Task)
 
 # Convert the frequency table to a data frame
@@ -715,12 +746,12 @@ plot <- ggplot(data = frequency,
 # Plot the graph/
 plot
 
-ggsave("./export/graph/Figure_09_raw.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
-ggsave("./export/graph/Figure_09_raw.pdf", plot = plot, width = 12, height = 10, units = "in")
+ggsave("./export/graph/Figure_10_raw.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
+ggsave("./export/graph/Figure_10_raw.pdf", plot = plot, width = 12, height = 10, units = "in")
 
-# 05 Results categories alluvial diagram #######################################
+# 06 Results categories alluvial diagram #######################################
 
-# 05.1 Remove under represented tasks ==========================================
+# 06.1 Remove under represented tasks ==========================================
 final <- review[,c(10:12)]
 frequency_table <- table(final$Task)
 frequency_df <- as.data.frame(frequency_table)
@@ -735,7 +766,7 @@ for (i in 1:nrow(final)) {
   }
 }
 
-# 05.2 Plot the third alluvial diagram =========================================
+# 06.2 Plot the third alluvial diagram =========================================
 frequency_table <- table(final$Evaluation, final$Results, final$Task)
 
 # Convert the frequency table to a data frame
@@ -762,25 +793,31 @@ plot <- ggplot(data = frequency,
 # Plot the graph/
 plot
 
-ggsave("./export/graph/Figure_10_raw.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
-ggsave("./export/graph/Figure_10_raw.pdf", plot = plot, width = 12, height = 10, units = "in")
+ggsave("./export/graph/Figure_11_raw.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
+ggsave("./export/graph/Figure_11_raw.pdf", plot = plot, width = 12, height = 10, units = "in")
 
-# 06 Model table for annexes/glossary ##########################################
-# 6.1 Prepare the data =========================================================
-df_counted$approach <- "Machine learning"
-df_counted$approach[df_counted$family == "Statistics"] <- "Statistics" 
-df_counted$model[df_counted$family == "Statistics"]
-df_counted$family[df_counted$model == "LR"] <- "Linear regression"
-df_counted$family[df_counted$model == "k-MC" | df_counted$model ==  "k-MED"] <- "Dimensionality reduction"
+# 07 Model table for annexes/glossary ##########################################
+# 7.1 Import the data ==========================================================
+df <- models
+df <- df[-74, c(1:5)]
+df <- df[df[3] !=0,] # Remove models with no occurences
 
-# 6.2 Format the data ==========================================================
-df_counted <- select(df_counted, approach, family, description, model, value, value.best)
-df_counted <- df_counted %>%  arrange(approach, family, desc(value))
+# 7.2 Format the data ==========================================================
+names(df) <- c("description", "model", "value", "value.best", "family")
+df$family[df$family == "N/A"] <- "Statistics"
+df$approach <- "Machine learning"
+df$approach[df$family == "Statistics"] <- "Statistics" 
+df$model[df$family == "Statistics"]
+df$family[df$model == "LR"] <- "Linear regression"
+df$family[df$model == "k-MC" | df$model ==  "k-MED"] <- "Dimensionality reduction"
 
-# 6.3 Plot the table ===========================================================
+df <- select(df, approach, family, description, model, value, value.best)
+df <- df %>%  arrange(approach, family, desc(value))
+
+# 7.3 Plot the table ===========================================================
 # Use the html format for the html quarto file and the latex format for the word and pdf
 
-df_counted %>%
+df %>%
   kable("html", caption = "List of algorithms used in the papers under review organized by the approach and family of analysis, 
         along with their abbreviations and number of use. In the case the model was compared to others, we highlighted the number of time he 
         performed as the best model.", col.names = c("Approach", "Family", "Description", "Model abreviation", "Number of uses", 
