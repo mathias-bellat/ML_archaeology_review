@@ -416,13 +416,7 @@ plot <- ggplot() +
     legend.box.just = "left",
     legend.text = element_text(size = 11),
     legend.title = element_text(size = 12, face = "bold"))# Center the legend box
-```
 
-    Warning: A numeric `legend.position` argument in `theme()` was deprecated in ggplot2
-    3.5.0.
-    ℹ Please use the `legend.position.inside` argument of `theme()` instead.
-
-``` r
 # Check the plot
 plot 
 ```
@@ -517,36 +511,7 @@ summary(as.factor(metadata$`Open-access`))
     [1] 70.37037
 
 ``` r
-# 02.7 Prepare the model graph =================================================
-models <- models[-74,c(1:5)]
-df_counted <- models[models[3] !=0,] # Remove models with no occurrences
-
-names(df_counted) <- c("description", "model", "value", "value.best", "family")
-df_counted$family[df_counted$family == "N/A"] <- "Statistics" 
-
-png("./export/graph/Figure_05_raw.png", width = 1600, height = 1300)
-pdf("./export/graph/Figure_05_raw.pdf", width = 16, height = 13)
-
-tm <- treemap(df_counted,
-              index = c("family", "model"),
-              vSize = "value",
-              type = "index",
-              fontsize.labels = c(11, 15), 
-              fontcolor.labels = c("white", "black"),
-              bg.labels = 2,
-              align.labels = list(c("left", "top"), c("center", "center")),
-              palette = "Pastel1",
-              title = "",
-              border.col = c("black", "white"),
-              border.lwds = c(2, 0))
-dev.off()
-```
-
-    png 
-      2 
-
-``` r
-# 02.8 Number of articles for each subfield of archaeology =====================
+# 02.7 Number of articles for each subfield of archaeology =====================
 cat <- review[,c(3,7)]
 cat <- cat %>% add_column(pest_matrix = cat$Subfield %>% str_split(';', simplify = T))
 cat_full <- as.data.frame(cat$pest_matrix)
@@ -692,18 +657,18 @@ plot1 <- ggplot(freq_df, aes(x=year, y=Freq, fill = reorder(category, -as.numeri
   annotate("text", x = 1997, y = 75, label = "A", fontface = "bold", size = 9, hjust = 1.2, vjust = 0.5) +
   theme_bw()+
   theme(legend.position = "bottom",
-    legend.box = "vertical",
-    legend.margin = margin(),
-    legend.text = element_text(size = 12),
-    legend.title = element_text(size = 13, face = "bold"),
-    axis.text.y = element_text(size = 12),
-    axis.title.y = element_text(size = 13, face = "bold"),
-    axis.text.x = element_text(size = 12),
-    axis.title.x = element_text(size = 13, face = "bold"))
+        legend.box = "vertical",
+        legend.margin = margin(),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 13, face = "bold"),
+        axis.text.y = element_text(size = 12),
+        axis.title.y = element_text(size = 13, face = "bold"),
+        axis.text.x = element_text(size = 12),
+        axis.title.x = element_text(size = 13, face = "bold"))
 ```
 
-    Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-    ℹ Please use `linewidth` instead.
+    Warning in geom_bar(stat = "identity", colour = "white", width = 0.9, cex =
+    0.1): Ignoring unknown parameters: `size`
 
 ``` r
 # Plot 1
@@ -713,7 +678,7 @@ plot1
 ![](02---Graphs_files/figure-commonmark/statistics%20bis%20graph-3.png)
 
 ``` r
-# 02.9 Number of articles for each families of models ==========================
+# 02.8 Number of articles for each families of models ==========================
 cat <- review[,c(3,6)]
 cat <- cat %>% add_column(pest_matrix = cat$Family %>% str_split(';', simplify = T))
 cat_full <- as.data.frame(cat$pest_matrix)
@@ -820,8 +785,8 @@ print(freq_df)
 plot2 <- ggplot(freq_df, aes(x = year, y = Freq, fill = reorder(family, -as.numeric(family)))) +
   geom_bar(stat = "identity", colour = "white", width = 0.9) +
   geom_text(aes(y = pos, label = ifelse(Freq > 1, Freq, "")),
-    color = "white",
-    size = 4) +
+            color = "white",
+            size = 4) +
   scale_fill_manual(values = color) +
   labs(
     x = "Year",
@@ -859,10 +824,40 @@ plot
 
 ``` r
 # Export plot
-ggsave("./export/graph/Figure_06_raw.png", plot = plot, width = 13, height = 17, units = "in", dpi = 600)
-ggsave("./export/graph/Figure_06_raw.pdf", plot = plot, width = 13, height = 17, units = "in")
+ggsave("./export/graph/Figure_05_raw.png", plot = plot, width = 13, height = 17, units = "in", dpi = 600)
+ggsave("./export/graph/Figure_05_raw.pdf", plot = plot, width = 13, height = 17, units = "in")
 
 
+# 02.9 Prepare the model graph =================================================
+models <- models[-74,c(1:5)]
+df_counted <- models[models[3] !=0,] # Remove models with no occurrences
+
+names(df_counted) <- c("description", "model", "value", "value.best", "family")
+df_counted$family[df_counted$family == "N/A"] <- "Statistics" 
+
+png("./export/graph/Figure_06_raw.png", width = 1600, height = 1300)
+pdf("./export/graph/Figure_06_raw.pdf", width = 16, height = 13)
+
+tm <- treemap(df_counted,
+              index = c("family", "model"),
+              vSize = "value",
+              type = "index",
+              fontsize.labels = c(11, 15), 
+              fontcolor.labels = c("white", "black"),
+              bg.labels = 2,
+              align.labels = list(c("left", "top"), c("center", "center")),
+              palette = "Pastel1",
+              title = "",
+              border.col = c("black", "white"),
+              border.lwds = c(2, 0))
+dev.off()
+```
+
+![](02---Graphs_files/figure-commonmark/statistics%20bis%20graph-tree.png)
+
+
+
+``` r
 # 02.10 Number of articles for each type of input data ==========================
 cat <- review[,c(3,8)]
 cat <- cat %>% add_column(pest_matrix = review$`Input data` %>% str_split(';', simplify = T))
@@ -975,48 +970,11 @@ ggsave("./export/graph/Figure_07_raw.png", plot = plot, width = 13.5, height = 5
 ggsave("./export/graph/Figure_07_raw.pdf", plot = plot, width = 13.5, height = 5, units = "in")
 ```
 
-## Tree map
-
-``` r
-# 03 Tree map figure ###########################################################
-
-# 3.1 Import the data ==========================================================
-df <- models
-df <- df[-74, c(1:5)]
-df <- df[df[3] !=0,] # Remove models with no occurences
-
-# 3.2 Format the data ==========================================================
-names(df) <- c("description", "model", "value", "value.best", "family")
-df$family[df$family == "N/A"] <- "Statistics"
-
-# 3.3 Create and export the graph  =============================================
-png("./export/graph/Figure_08_raw.png", width = 1200, height = 1000)
-pdf("./export/graph/Figure_08_raw.pdf", width = 12, height = 10)
-par(mar = c(0, 0, 0, 0))
-tm <- treemap(df,
-              index = c("family", "model"),
-              vSize = "value",
-              type = "index",
-              fontsize.labels = c(16, 15),  # Masquer les labels de famille
-              fontcolor.labels = c("white", "black"),  # Noir sur Pastel1
-              bg.labels = 0,
-              align.labels = list(c("left", "top"), c("center", "center")),
-              title = "",
-              palette = "Pastel1",
-              border.col = c("black", "white"),
-              border.lwds = c(2, 0))
-dev.off()
-
-```
-
-![](02---Graphs_files/figure-commonmark/tree%20map%20graph-1.png)
-
- 
 ## Alluvial diagrams
 
 ``` r
-# 04 Families categories alluvial diagram ######################################
-# 04.1 Families categories concatenate =========================================
+# 03 Families categories alluvial diagram ######################################
+# 03.1 Families categories concatenate =========================================
 # Split the categories column by semicolon
 cat <- review[,c(10:11,6)]
 cat <- cat %>% add_column(pest_matrix = cat$Family %>% str_split(';', simplify = T))
@@ -1039,7 +997,7 @@ colnames(final) <- c("Evaluation", "Task","Architecture")
 
 write.csv(final, "./export/second_alluvial.csv", fileEncoding = "UTF-8")
 
-# 04.2 Remove under represented tasks ==========================================
+# 03.2 Remove under represented tasks ==========================================
 final <- as.data.frame(final)
 frequency_table <- table(final$Task)
 frequency_df <- as.data.frame(frequency_table)
@@ -1054,7 +1012,7 @@ for (i in 1:nrow(final)) {
   }
 }
 
-# 04.3 Remove under represented archaeological categories ======================
+# 03.3 Remove under represented archaeological categories ======================
 frequency_table <- table(final$Architecture)
 frequency_df <- as.data.frame(frequency_table)
 
@@ -1067,7 +1025,7 @@ for (i in 1:nrow(final)) {
   }
 }
 
-# 04.4 Plot the second alluvial diagramm =======================================
+# 03.4 Plot the second alluvial diagramm =======================================
 frequency_table <- table(final$Evaluation, final$Architecture, final$Task)
 
 # Convert the frequency table to a data frame
@@ -1105,7 +1063,7 @@ plot
 ![](02---Graphs_files/figure-commonmark/alluvial%20diagrams%20graph-1.png)
 
 ``` r
-ggsave("./export/graph/Figure_09_raw.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
+ggsave("./export/graph/Figure_08_raw.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
 ```
 
     Warning in to_lodes_form(data = data, axes = axis_ind, discern =
@@ -1116,7 +1074,7 @@ ggsave("./export/graph/Figure_09_raw.png", plot = plot, width = 12, height = 10,
     params$discern): Some strata appear at multiple axes.
 
 ``` r
-ggsave("./export/graph/Figure_09_raw.pdf", plot = plot, width = 12, height = 10, units = "in")
+ggsave("./export/graph/Figure_08_raw.pdf", plot = plot, width = 12, height = 10, units = "in")
 ```
 
     Warning in to_lodes_form(data = data, axes = axis_ind, discern =
@@ -1127,8 +1085,8 @@ ggsave("./export/graph/Figure_09_raw.pdf", plot = plot, width = 12, height = 10,
     params$discern): Some strata appear at multiple axes.
 
 ``` r
-# 05 Subfield categories alluvial diagram ######################################
-# 05.1 Function to concatenate the columns =====================================
+# 04 Subfield categories alluvial diagram ######################################
+# 04.1 Function to concatenate the columns =====================================
 separate <- function(df, A, B) {
   for (i in 1:nrow(df)) {
     for (j in A:B) {
@@ -1142,7 +1100,7 @@ separate <- function(df, A, B) {
   return(df)
 } 
 
-# 05.2 Archaeological categories concatenate ###################################
+# 04.2 Archaeological categories concatenate ###################################
 
 # Split the categories column by semicolon
 cat <- review[,c(10:11,7)]
@@ -1166,7 +1124,7 @@ colnames(final) <- c("Evaluation", "Task","Category")
 
 write.csv(final, "./export/first_alluvial.csv", fileEncoding = "UTF-8")
 
-# 05.3 Remove under represented tasks ==========================================
+# 04.3 Remove under represented tasks ==========================================
 
 final <- as.data.frame(final)
 frequency_table <- table(final$Task)
@@ -1182,7 +1140,7 @@ for (i in 1:nrow(final)) {
   }
 }
 
-# 05.4 Remove under represented archaeological categories ======================
+# 04.4 Remove under represented archaeological categories ======================
 frequency_table <- table(final$Category)
 frequency_df <- as.data.frame(frequency_table)
 
@@ -1195,7 +1153,7 @@ for (i in 1:nrow(final)) {
   }
 }
 
-# 05.5 Plot the first alluvial diagram =========================================
+# 04.5 Plot the first alluvial diagram =========================================
 frequency_table <- table(final$Evaluation, final$Category, final$Task)
 
 # Convert the frequency table to a data frame
@@ -1233,7 +1191,7 @@ plot
 ![](02---Graphs_files/figure-commonmark/alluvial%20diagrams%20graph-2.png)
 
 ``` r
-ggsave("./export/graph/Figure_10_raw.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
+ggsave("./export/graph/Figure_09_raw.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
 ```
 
     Warning in to_lodes_form(data = data, axes = axis_ind, discern =
@@ -1244,7 +1202,7 @@ ggsave("./export/graph/Figure_10_raw.png", plot = plot, width = 12, height = 10,
     params$discern): Some strata appear at multiple axes.
 
 ``` r
-ggsave("./export/graph/Figure_10_raw.pdf", plot = plot, width = 12, height = 10, units = "in")
+ggsave("./export/graph/Figure_09_raw.pdf", plot = plot, width = 12, height = 10, units = "in")
 ```
 
     Warning in to_lodes_form(data = data, axes = axis_ind, discern =
@@ -1255,9 +1213,9 @@ ggsave("./export/graph/Figure_10_raw.pdf", plot = plot, width = 12, height = 10,
     params$discern): Some strata appear at multiple axes.
 
 ``` r
-# 06 Results categories alluvial diagram #######################################
+# 05 Results categories alluvial diagram #######################################
 
-# 06.1 Remove under represented tasks ==========================================
+# 05.1 Remove under represented tasks ==========================================
 final <- review[,c(10:12)]
 frequency_table <- table(final$Task)
 frequency_df <- as.data.frame(frequency_table)
@@ -1272,7 +1230,7 @@ for (i in 1:nrow(final)) {
   }
 }
 
-# 06.2 Plot the third alluvial diagram =========================================
+# 05.2 Plot the third alluvial diagram =========================================
 frequency_table <- table(final$Evaluation, final$Results, final$Task)
 
 # Convert the frequency table to a data frame
@@ -1303,8 +1261,8 @@ plot
 ![](02---Graphs_files/figure-commonmark/alluvial%20diagrams%20graph-3.png)
 
 ``` r
-ggsave("./export/graph/Figure_11_raw.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
-ggsave("./export/graph/Figure_11_raw.pdf", plot = plot, width = 12, height = 10, units = "in")
+ggsave("./export/graph/Figure_10_raw.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
+ggsave("./export/graph/Figure_10_raw.pdf", plot = plot, width = 12, height = 10, units = "in")
 ```
 
 ## Annexe/Glossary model table
@@ -1316,27 +1274,21 @@ df <- models
 df <- df[-74, c(1:5)]
 df <- df[df[3] !=0,] # Remove models with no occurences
 
-# 7.1 Prepare the data =========================================================
-df_counted$approach <- "Machine learning"
-df_counted$approach[df_counted$family == "Statistics"] <- "Statistics" 
-df_counted$model[df_counted$family == "Statistics"]
-```
-
-    [1] "k-MC"  "k-MED" "LR"   
-
-``` r
-df_counted$family[df_counted$model == "LR"] <- "Linear regression"
-df_counted$family[df_counted$model == "k-MC" | df_counted$model ==  "k-MED"] <- "Dimensionality reduction"
-
 # 7.2 Format the data ==========================================================
 names(df) <- c("description", "model", "value", "value.best", "family")
 df$family[df$family == "N/A"] <- "Statistics"
 df$approach <- "Machine learning"
 df$approach[df$family == "Statistics"] <- "Statistics" 
 df$model[df$family == "Statistics"]
+```
+
+    [1] "k-MC"  "k-MED" "LR"   
+
+``` r
 df$family[df$model == "LR"] <- "Linear regression"
 df$family[df$model == "k-MC" | df$model ==  "k-MED"] <- "Dimensionality reduction"
 
+# 7.2 Format the data ==========================================================
 df <- select(df, approach, family, description, model, value, value.best)
 df <- df %>%  arrange(approach, family, desc(value))
 
